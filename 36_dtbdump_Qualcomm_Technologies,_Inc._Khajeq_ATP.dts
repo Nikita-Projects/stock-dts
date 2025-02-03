@@ -613,6 +613,7 @@
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;

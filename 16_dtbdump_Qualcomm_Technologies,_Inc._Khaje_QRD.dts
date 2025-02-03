@@ -1181,6 +1181,7 @@
             qcom,dsi-supported-dfps-list = <0x78 0x5A 0x3C>;
             qcom,esd-err-irq-gpio = <&tlmm 0x21 0x2002>;
             qcom,mdss-brightness-init-level = <0x133>;
+            qcom,mdss-brightness-max-level = <0x7FF>;
             qcom,mdss-dsi-bl-dcs-type-ss-ea;
             qcom,mdss-dsi-bl-inverted-dbv;
             qcom,mdss-dsi-bllp-eof-power-mode;
@@ -1272,6 +1273,7 @@
             qcom,dsi-supported-dfps-list = <0x78 0x5A 0x3C>;
             qcom,esd-err-irq-gpio = <&tlmm 0x21 0x2002>;
             qcom,mdss-brightness-init-level = <0x133>;
+            qcom,mdss-brightness-max-level = <0x7FF>;
             qcom,mdss-dsi-bl-dcs-type-ss-ea;
             qcom,mdss-dsi-bl-inverted-dbv;
             qcom,mdss-dsi-bllp-eof-power-mode;
@@ -1760,11 +1762,8 @@
         si,si_pa_type = "sia81x9";
         timer_task_hdl = <0x0>;
     };
-    thermal-message {
-        board-sensor = "VIRTUAL-SENSOR";
-    };
     thermal-screen {
-        panel = <&dsi_m7_38_0c_0a_video &dsi_m7_38_0c_0b_video>;
+        panel = <&dsi_panel_m7_38_0c_0a_fhdp_video &dsi_panel_m7_38_0c_0b_fhdp_video>;
     };
     tx_core_clk {
         #clock-cells = <0x1>;
@@ -2628,6 +2627,7 @@
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;
@@ -2644,6 +2644,10 @@
     vdda-phy-supply = <&L4A>;
     vdda-pll-max-microamp = <0x477C>;
     vdda-pll-supply = <&L18A>;
+};
+
+&usb0 {
+    extcon = <&pm7250b_pdphy &pm7250b_charger &eud>;
 };
 
 &usb_qmp_dp_phy {

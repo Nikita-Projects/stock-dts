@@ -124,6 +124,46 @@
     compatible = "qcom,pm8010-regulator";
 };
 
+&qupv3_se1_i2c {
+    awinic@64 {
+        compatible = "awinic,aw2016_led";
+        reg = <0x64>;
+        awinic,blue {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x2>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "blue";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,green {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x1>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "green";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,red {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x0>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "red";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+    };
+};
+
 &qupv3_se2_i2c {
     qcom,i2c-touch-active = "synaptics,tcm-i2c";
     status = "okay";
@@ -137,7 +177,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x62>;
-        status = "ok";
+        status = "disabled";
     };
     synaptics_tcm@20 {
         compatible = "synaptics,tcm-i2c";
@@ -148,6 +188,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x20>;
+        status = "disable";
         synaptics,extend_report;
         synaptics,firmware-name = "synaptics_firmware_k.img";
         synaptics,irq-gpio = <&tlmm 0x50 0x2008>;
@@ -159,6 +200,10 @@
         synaptics,reset-on-state = <0x0>;
         synaptics,ubl-i2c-addr = <0x20>;
     };
+};
+
+&qupv3_se4_2uart {
+    status = "ok";
 };
 
 &sdhc_1 {
@@ -257,6 +302,9 @@
             linux,input-type = <0x1>;
         };
     };
+    thermal-message {
+        board-sensor = "VIRTUAL-SENSOR";
+    };
     vdda_usb_ss_dp_core {
         compatible = "regulator-fixed";
         enable-active-high;
@@ -333,73 +381,12 @@
     };
 };
 
-&tlmm {
-    msm_gpio_104: msm_gpio_104 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_104_output_high: msm_gpio_104_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_65: msm_gpio_65 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_65_output_high: msm_gpio_65_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_83: msm_gpio_83 {
-        config {
-            bias-pull-down;
-            drive-strength = <0x2>;
-            pins = "gpio83";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio83";
-        };
-    };
-};
-
 &ufshc_mem {
     qcom,vddp-ref-clk-max-microamp = <0x64>;
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;

@@ -94,6 +94,43 @@
 
 &qupv3_se1_i2c {
     status = "ok";
+    awinic@64 {
+        compatible = "awinic,aw2016_led";
+        reg = <0x64>;
+        awinic,blue {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x2>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "blue";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,green {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x1>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "green";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,red {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x0>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "red";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+    };
     smb1355_0: qcom,smb1355@8 {
         #address-cells = <0x1>;
         #interrupt-cells = <0x3>;
@@ -175,7 +212,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x62>;
-        status = "ok";
+        status = "disabled";
     };
     synaptics_tcm@20 {
         compatible = "synaptics,tcm-i2c";
@@ -186,6 +223,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x20>;
+        status = "disable";
         synaptics,extend_report;
         synaptics,firmware-name = "synaptics_firmware_k.img";
         synaptics,irq-gpio = <&tlmm 0x50 0x2008>;
@@ -197,6 +235,10 @@
         synaptics,reset-on-state = <0x0>;
         synaptics,ubl-i2c-addr = <0x20>;
     };
+};
+
+&qupv3_se4_2uart {
+    status = "ok";
 };
 
 &sdhc_1 {
@@ -295,7 +337,7 @@
             linux,input-type = <0x1>;
         };
     };
-    qcom,battery-data {
+    mtp_batterydata: qcom,battery-data {
         qcom,batt-id-range-pct = <0xF>;
         qcom,alium_860_89032_0000_3600mAh {
             qcom,batt-id-kohm = <0x6B>;
@@ -394,6 +436,9 @@
                 qcom,lut-row-legend = <0x2710 0x2648 0x2580 0x24B8 0x23F0 0x2328 0x2260 0x2198 0x20D0 0x2008 0x1F40 0x1E78 0x1DB0 0x1CE8 0x1C20 0x1B58 0x1A90 0x19C8 0x1900 0x1838 0x1770 0x16A8 0x15E0 0x1518 0x1450 0x1388 0x12C0 0x11F8 0x1130 0x1068 0xFA0 0xED8 0xE10 0xD48 0xC80 0xBB8 0xAF0 0xA28 0x960 0x898 0x7D0 0x708 0x640 0x578 0x4B0 0x3E8 0x384 0x320 0x2BC 0x258 0x1F4 0x190 0x12C 0xC8 0x64 0x0>;
             };
         };
+    };
+    thermal-message {
+        board-sensor = "VIRTUAL-SENSOR";
     };
     vdda_usb_ss_dp_core {
         compatible = "regulator-fixed";
@@ -1016,73 +1061,12 @@
     };
 };
 
-&tlmm {
-    msm_gpio_104: msm_gpio_104 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_104_output_high: msm_gpio_104_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_65: msm_gpio_65 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_65_output_high: msm_gpio_65_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_83: msm_gpio_83 {
-        config {
-            bias-pull-down;
-            drive-strength = <0x2>;
-            pins = "gpio83";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio83";
-        };
-    };
-};
-
 &ufshc_mem {
     qcom,vddp-ref-clk-max-microamp = <0x64>;
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;
@@ -1099,6 +1083,10 @@
     vdda-phy-supply = <&L4A>;
     vdda-pll-max-microamp = <0x477C>;
     vdda-pll-supply = <&L18A>;
+};
+
+&usb0 {
+    extcon = <&pm7250b_pdphy &pm7250b_charger &eud>;
 };
 
 &usb_qmp_dp_phy {

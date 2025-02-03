@@ -1365,6 +1365,7 @@
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;
@@ -1381,6 +1382,10 @@
     vdda-phy-supply = <&L4A>;
     vdda-pll-max-microamp = <0x477C>;
     vdda-pll-supply = <&L18A>;
+};
+
+&usb0 {
+    extcon = <&pm7250b_pdphy &pm7250b_charger &eud>;
 };
 
 &usb_qmp_dp_phy {

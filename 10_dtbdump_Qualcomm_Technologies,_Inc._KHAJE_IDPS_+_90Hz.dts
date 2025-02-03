@@ -300,7 +300,7 @@
     led_flash_rear_aux: qcom,camera-flash@1 {
         cci-master = <0x1>;
         cell-index = <0x1>;
-        compatible = [00];
+        compatible = "qcom,camera-flash";
         flash-type = <0x1>;
         gpio-custom1 = <0x0>;
         gpio-no-mux = <0x0>;
@@ -321,7 +321,7 @@
     led_flash_rear_aux2: qcom,camera-flash@2 {
         cci-master = <0x1>;
         cell-index = <0x2>;
-        compatible = [00];
+        compatible = "qcom,camera-flash";
         flash-type = <0x1>;
         gpio-custom1 = <0x0>;
         gpio-no-mux = <0x0>;
@@ -542,6 +542,43 @@
         reset-gpio = <&tlmm 0x6A 0x0>;
         status = "okay";
     };
+    awinic@64 {
+        compatible = "awinic,aw2016_led";
+        reg = <0x64>;
+        awinic,blue {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x2>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "blue";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,green {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x1>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "green";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,red {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x0>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "red";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+    };
     fs16xx@34 {
         compatible = "foursemi,fs16xx";
         fsm,rst-gpio = <&tlmm 0x6A 0x0>;
@@ -660,7 +697,7 @@
         focaltech,reset-gpio = <&tlmm 0x56 0x1>;
         interrupt-parent = <&tlmm>;
         interrupts = <0x50 0x2>;
-        panel = <&dsi_m7_38_0c_0a_video>;
+        panel = <&dsi_panel_m7_38_0c_0a_fhdp_video>;
         pinctrl-0 = <&ts_int_active &ts_reset_active &ts_avdd>;
         pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
         pinctrl-2 = <&ts_release>;
@@ -679,7 +716,7 @@
         goodix,reset-gpio = <&tlmm 0x56 0x1>;
         interrupt-parent = <&tlmm>;
         interrupts = <0x50 0x2>;
-        panel = <&dsi_m7_38_0c_0b_video>;
+        panel = <&dsi_panel_m7_38_0c_0b_fhdp_video>;
         pinctrl-0 = <&ts_int_active &ts_reset_active &ts_avdd>;
         pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
         pinctrl-2 = <&ts_release>;
@@ -710,6 +747,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x20>;
+        status = "disable";
         synaptics,extend_report;
         synaptics,firmware-name = "synaptics_firmware_k.img";
         synaptics,irq-gpio = <&tlmm 0x50 0x2008>;
@@ -722,6 +760,10 @@
         synaptics,ubl-i2c-addr = <0x20>;
         panel = <&dsi_td4330_truly_v2_video &dsi_td4330_truly_v2_cmd>;
     };
+};
+
+&qupv3_se4_2uart {
+    status = "ok";
 };
 
 &reserved_memory {
@@ -876,7 +918,7 @@
         pinctrl-1 = <&wcd937x_reset_sleep>;
         pinctrl-names = "aud_active", "aud_sleep";
     };
-    qcom,battery-data {
+    mtp_batterydata: qcom,battery-data {
         qcom,batt-id-range-pct = <0xF>;
         qcom,alium_860_89032_0000_3600mAh {
             qcom,batt-id-kohm = <0x6B>;
@@ -1914,7 +1956,7 @@
         board-sensor = "VIRTUAL-SENSOR";
     };
     thermal-screen {
-        panel = <&dsi_m7_38_0c_0a_video &dsi_m7_38_0c_0b_video>;
+        panel = <&dsi_panel_m7_38_0c_0a_fhdp_video &dsi_panel_m7_38_0c_0b_fhdp_video>;
     };
     tx_core_clk {
         #clock-cells = <0x1>;
@@ -2620,73 +2662,12 @@
     };
 };
 
-&tlmm {
-    msm_gpio_104: msm_gpio_104 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_104_output_high: msm_gpio_104_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_65: msm_gpio_65 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_65_output_high: msm_gpio_65_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_83: msm_gpio_83 {
-        config {
-            bias-pull-down;
-            drive-strength = <0x2>;
-            pins = "gpio83";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio83";
-        };
-    };
-};
-
 &ufshc_mem {
     qcom,vddp-ref-clk-max-microamp = <0x64>;
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;
@@ -2703,6 +2684,10 @@
     vdda-phy-supply = <&L4A>;
     vdda-pll-max-microamp = <0x477C>;
     vdda-pll-supply = <&L18A>;
+};
+
+&usb0 {
+    extcon = <&pm7250b_pdphy &pm7250b_charger &eud>;
 };
 
 &usb_qmp_dp_phy {

@@ -299,7 +299,7 @@
     led_flash_rear_aux: qcom,camera-flash@1 {
         cci-master = <0x1>;
         cell-index = <0x1>;
-        compatible = [00];
+        compatible = "qcom,camera-flash";
         flash-type = <0x1>;
         gpio-custom1 = <0x0>;
         gpio-no-mux = <0x0>;
@@ -320,7 +320,7 @@
     led_flash_rear_aux2: qcom,camera-flash@2 {
         cci-master = <0x1>;
         cell-index = <0x2>;
-        compatible = [00];
+        compatible = "qcom,camera-flash";
         flash-type = <0x1>;
         gpio-custom1 = <0x0>;
         gpio-no-mux = <0x0>;
@@ -543,6 +543,43 @@
         reset-gpio = <&tlmm 0x6A 0x0>;
         status = "okay";
     };
+    awinic@64 {
+        compatible = "awinic,aw2016_led";
+        reg = <0x64>;
+        awinic,blue {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x2>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "blue";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,green {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x1>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "green";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,red {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x0>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "red";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+    };
     fs16xx@34 {
         compatible = "foursemi,fs16xx";
         fsm,rst-gpio = <&tlmm 0x6A 0x0>;
@@ -623,6 +660,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x20>;
+        status = "disabled";
         synaptics,extend_report;
         synaptics,firmware-name = "synaptics_firmware_k.img";
         synaptics,irq-gpio = <&tlmm 0x50 0x2008>;
@@ -633,8 +671,11 @@
         synaptics,reset-gpio = <&tlmm 0x56 0x0>;
         synaptics,reset-on-state = <0x0>;
         synaptics,ubl-i2c-addr = <0x20>;
-        status = "disabled";
     };
+};
+
+&qupv3_se4_2uart {
+    status = "ok";
 };
 
 &sdhc_1 {
@@ -742,7 +783,7 @@
             linux,input-type = <0x1>;
         };
     };
-    msm_cdc_pinctrl@106 {
+    wsa881x_analog_reset_gpio: msm_cdc_pinctrl@106 {
         #gpio-cells = <0x0>;
         compatible = "qcom,msm-cdc-pinctrl";
         pinctrl-0 = <&spkr_1_sd_n_active>;
@@ -750,7 +791,7 @@
         pinctrl-names = "aud_active", "aud_sleep";
         status = "disable";
     };
-    msm_cdc_pinctrl@92 {
+    wcd937x_rst_gpio: msm_cdc_pinctrl@92 {
         #gpio-cells = <0x0>;
         compatible = "qcom,msm-cdc-pinctrl";
         pinctrl-0 = <&wcd937x_reset_active>;
@@ -761,21 +802,21 @@
         compatible = "qcom,cam-res-mgr";
         status = "ok";
     };
-    rx_core_clk {
+    clock_audio_rx_1: rx_core_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x5>;
         qcom,codec-lpass-clk-id = <0x30E>;
         qcom,codec-lpass-ext-clk-freq = <0x1588800>;
     };
-    rx_npl_clk {
+    clock_audio_rx_2: rx_npl_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x6>;
         qcom,codec-lpass-clk-id = <0x30F>;
         qcom,codec-lpass-ext-clk-freq = <0x1588800>;
     };
-    si_pa_L {
+    si_pa_L: si_pa_L {
         channel_num = <0x0>;
         compatible = "si,sia81xx";
         owi_mode = <0x1>;
@@ -784,28 +825,31 @@
         si,si_pa_type = "sia81x9";
         timer_task_hdl = <0x0>;
     };
-    tx_core_clk {
+    thermal-message {
+        board-sensor = "VIRTUAL-SENSOR";
+    };
+    clock_audio_tx_1: tx_core_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x7>;
         qcom,codec-lpass-clk-id = <0x30C>;
         qcom,codec-lpass-ext-clk-freq = <0x124F800>;
     };
-    tx_npl_clk {
+    clock_audio_tx_2: tx_npl_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x8>;
         qcom,codec-lpass-clk-id = <0x30D>;
         qcom,codec-lpass-ext-clk-freq = <0x124F800>;
     };
-    va_core_clk {
+    clock_audio_va_1: va_core_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x2>;
         qcom,codec-lpass-clk-id = <0x307>;
         qcom,codec-lpass-ext-clk-freq = <0x124F800>;
     };
-    va_npl_clk {
+    clock_audio_va_2: va_npl_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0xA>;
@@ -829,7 +873,7 @@
         status = "ok";
         vib,en-gpio = <&pm6125_gpios 0x8 0x1>;
     };
-    wsa_ana_clk {
+    wsa881x_analog_clk: wsa_ana_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x3>;
@@ -938,73 +982,12 @@
     };
 };
 
-&tlmm {
-    msm_gpio_104: msm_gpio_104 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_104_output_high: msm_gpio_104_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_65: msm_gpio_65 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_65_output_high: msm_gpio_65_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_83: msm_gpio_83 {
-        config {
-            bias-pull-down;
-            drive-strength = <0x2>;
-            pins = "gpio83";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio83";
-        };
-    };
-};
-
 &ufshc_mem {
     qcom,vddp-ref-clk-max-microamp = <0x64>;
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;
@@ -1021,6 +1004,12 @@
     vdda-phy-supply = <&L4A>;
     vdda-pll-max-microamp = <0x477C>;
     vdda-pll-supply = <&L18A>;
+};
+
+&usb0 {
+    dwc3@4e00000 {
+        dr_mode = "peripheral";
+    };
 };
 
 &usb_qmp_dp_phy {

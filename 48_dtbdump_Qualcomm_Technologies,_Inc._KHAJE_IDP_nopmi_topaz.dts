@@ -226,12 +226,48 @@
         reset-gpio = <&tlmm 0x6A 0x0>;
         status = "okay";
     };
+    awinic@64 {
+        compatible = "awinic,aw2016_led";
+        reg = <0x64>;
+        awinic,blue {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x2>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "blue";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,green {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x1>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "green";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,red {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x0>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "red";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+    };
     bq2589x@6A {
         #address-cells = <0x1>;
         #io-channel-cells = <0x1>;
         #size-cells = <0x0>;
         compatible = "ti,bq2589x-1";
-        dpdm-supply = <&usb2_phy0>;
         interrupt-parent = <&tlmm>;
         interrupts = <0x69 0x0>;
         intr-gpio = <&tlmm 0x69 0x0>;
@@ -263,7 +299,7 @@
         reg = <0x34>;
         status = "okay";
     };
-    ln8000_charger@51 {
+    ln8000_charger: ln8000_charger@51 {
         #io-channel-cells = <0x1>;
         compatible = "lionsemi,ln8000-master";
         irq-gpios = <&tlmm 0x54 0x0>;
@@ -384,7 +420,7 @@
         sm,low_soc1 = <0x1>;
         sm,low_soc2 = <0xF>;
         sm,misc = <0x800>;
-        sm,param_version = <0x6>;
+        sm,param_version = <0x5>;
         sm,rsns = <0x0>;
         sm,rtrace = <0x7D0>;
         sm,shutdown-delay-enable;
@@ -393,8 +429,8 @@
         sm,t_h_alarm_in = <0x1>;
         sm,t_l_alarm_ex = <0xD3D8>;
         sm,t_l_alarm_in = <0x36>;
-        sm,v_h_alarm = <0x1162>;
-        sm,v_l_alarm = <0xD48>;
+        sm,v_h_alarm = <0x9245>;
+        sm,v_l_alarm = <0xD3D8>;
         battery_params {
             battery0,alpha = <0xCC>;
             battery0,battery_table0 = <0x1400 0x1B3D 0x1C5E 0x1D3A 0x1D80 0x1D8D 0x1D93 0x1DAA 0x1DFA 0x1E3E 0x1E77 0x1EB2 0x1F09 0x1F67 0x1FB3 0x1FE6 0x2046 0x20EB 0x21A1 0x2220 0x227A 0x2319 0x2360 0x24CC>;
@@ -531,6 +567,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x20>;
+        status = "disable";
         synaptics,extend_report;
         synaptics,firmware-name = "synaptics_firmware_k.img";
         synaptics,irq-gpio = <&tlmm 0x50 0x2008>;
@@ -541,7 +578,6 @@
         synaptics,reset-gpio = <&tlmm 0x56 0x0>;
         synaptics,reset-on-state = <0x0>;
         synaptics,ubl-i2c-addr = <0x20>;
-        status = "disabled";
     };
 };
 
@@ -743,7 +779,7 @@
         io-channels = <&sc8551_standalone 0x90 &sc8551_standalone 0x76 &sc8551_standalone 0x8F &sc8551_standalone 0x92 &sc8551_standalone 0x93 &sc8551_standalone 0x94 &sc8551_standalone 0x95 &sc8551_standalone 0x96 &sc8551_standalone 0x97 &sc8551_standalone 0x98 &sc8551_standalone 0x99 &sc8551_standalone 0x9A &sc8551_standalone 0x9B &sc8551_standalone 0x91 &sc8551_standalone 0x9C &sc8551_standalone 0x9D &sc8551_standalone 0xAB &nopmi_chg 0x78 &nopmi_chg 0x4 &nopmi_chg 0x76 &bq2589x 0x9E &ln8000_charger 0x8F &ln8000_charger 0x90 &ln8000_charger 0xA6 &ln8000_charger 0xAA &ln8000_charger 0xA7 &ln8000_charger 0x76 &ln8000_charger 0xA4 &ln8000_charger 0xA5 &ln8000_charger 0x92 &ln8000_charger 0x93 &ln8000_charger 0x94 &ln8000_charger 0x95 &ln8000_charger 0x96 &ln8000_charger 0x97 &ln8000_charger 0x98 &ln8000_charger 0x99 &ln8000_charger 0x9A &ln8000_charger 0x9B &ln8000_charger 0x91 &ln8000_charger 0xA8 &ln8000_charger 0xA9 &ln8000_charger 0x9C &ln8000_charger 0xAB &nopmi_chg 0xAC &nopmi_chg 0xAD>;
         status = "okay";
     };
-    rt-pd-manager {
+    rpm: rt-pd-manager {
         #io-channel-cells = <0x1>;
         compatible = "richtek,rt-pd-manager";
         io-channel-names = "usb_real_type", "pd_active", "pd_voltage_min", "pd_voltage_max", "pd_current_max", "typec_cc_orientation", "pd_usb_suspend_supported", "pd_in_hard_reset", "cc_chip_id";
@@ -962,65 +998,6 @@
             pins = "gpio66";
         };
     };
-    msm_gpio_104 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_104_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_65 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_65_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_83 {
-        config {
-            bias-pull-down;
-            drive-strength = <0x2>;
-            pins = "gpio83";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio83";
-        };
-    };
     onewire_gpio_active {
         config {
             bias-pull-up;
@@ -1073,6 +1050,7 @@
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;

@@ -299,7 +299,7 @@
     led_flash_rear_aux: qcom,camera-flash@1 {
         cci-master = <0x1>;
         cell-index = <0x1>;
-        compatible = [00];
+        compatible = "qcom,camera-flash";
         flash-type = <0x1>;
         gpio-custom1 = <0x0>;
         gpio-no-mux = <0x0>;
@@ -320,7 +320,7 @@
     led_flash_rear_aux2: qcom,camera-flash@2 {
         cci-master = <0x1>;
         cell-index = <0x2>;
-        compatible = [00];
+        compatible = "qcom,camera-flash";
         flash-type = <0x1>;
         gpio-custom1 = <0x0>;
         gpio-no-mux = <0x0>;
@@ -543,6 +543,43 @@
         reset-gpio = <&tlmm 0x6A 0x0>;
         status = "okay";
     };
+    awinic@64 {
+        compatible = "awinic,aw2016_led";
+        reg = <0x64>;
+        awinic,blue {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x2>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "blue";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,green {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x1>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "green";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+        awinic,red {
+            awinic,fall-time-ms = <0x6>;
+            awinic,hold-time-ms = <0x0>;
+            awinic,id = <0x0>;
+            awinic,imax = <0x2>;
+            awinic,led-current = <0x3>;
+            awinic,max-brightness = <0xFF>;
+            awinic,name = "red";
+            awinic,off-time-ms = <0x4>;
+            awinic,rise-time-ms = <0x6>;
+        };
+    };
     bq2589x@6A {
         #address-cells = <0x1>;
         #io-channel-cells = <0x1>;
@@ -580,7 +617,7 @@
         reg = <0x34>;
         status = "okay";
     };
-    ln8000_charger@51 {
+    ln8000_charger: ln8000_charger@51 {
         #io-channel-cells = <0x1>;
         compatible = "lionsemi,ln8000-master";
         irq-gpios = <&tlmm 0x54 0x0>;
@@ -784,7 +821,7 @@
             battery2,volt_cal = <0x8000>;
             battery3,alpha = <0xCC>;
             battery3,battery_table0 = <0x1400 0x1B32 0x1BFD 0x1CD9 0x1D76 0x1D8C 0x1D96 0x1DB5 0x1DFE 0x1E43 0x1E75 0x1EB2 0x1F06 0x1F6C 0x1FB4 0x1FE2 0x2041 0x20E5 0x219C 0x221B 0x2274 0x2315 0x2361 0x24CC>;
-            battery3,battery_table1 = <0x0 0x66 0x149 0x2D1 0x4DD 0x6E9 0xB01 0xD0C 0x13B2 0x1B5F 0x230B 0x2AB7 0x3263 0x3780 0x3A0F 0x3C9D 0x41BB 0x4967 0x5113 0x5630 0x59C5 0x60EE 0x6400 0x64E6>;
+            battery3,battery_table1 = <0x0 0x66 0x149 0x2D1 0x4DD 0x6E9 0xB01 0xD0C 0x13B2 0x1B5F 0x230B 0x2AB7 0x3283 0x3780 0x3A0F 0x3C9D 0x41BB 0x4967 0x5113 0x5630 0x59C5 0x60EE 0x6400 0x64E6>;
             battery3,battery_table2 = <0x131B 0xF11 0xE0E 0xC0C 0xB0B 0xA0A 0x90A 0x909>;
             battery3,battery_type = <0x1162 0x0 0x26CC>;
             battery3,beta = <0x25>;
@@ -848,7 +885,7 @@
         focaltech,reset-gpio = <&tlmm 0x56 0x1>;
         interrupt-parent = <&tlmm>;
         interrupts = <0x50 0x2>;
-        panel = <&dsi_m7_38_0c_0a_video>;
+        panel = <&dsi_panel_m7_38_0c_0a_fhdp_video>;
         pinctrl-0 = <&ts_int_active &ts_reset_active &ts_avdd>;
         pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
         pinctrl-2 = <&ts_release>;
@@ -867,7 +904,7 @@
         goodix,reset-gpio = <&tlmm 0x56 0x1>;
         interrupt-parent = <&tlmm>;
         interrupts = <0x50 0x2>;
-        panel = <&dsi_m7_38_0c_0b_video>;
+        panel = <&dsi_panel_m7_38_0c_0b_fhdp_video>;
         pinctrl-0 = <&ts_int_active &ts_reset_active &ts_avdd>;
         pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
         pinctrl-2 = <&ts_release>;
@@ -898,6 +935,7 @@
         pinctrl-2 = <&ts_release>;
         pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
         reg = <0x20>;
+        status = "disabled";
         synaptics,extend_report;
         synaptics,firmware-name = "synaptics_firmware_k.img";
         synaptics,irq-gpio = <&tlmm 0x50 0x2008>;
@@ -908,7 +946,6 @@
         synaptics,reset-gpio = <&tlmm 0x56 0x0>;
         synaptics,reset-on-state = <0x0>;
         synaptics,ubl-i2c-addr = <0x20>;
-        status = "disabled";
         panel = <&dsi_td4330_truly_v2_video &dsi_td4330_truly_v2_cmd>;
     };
 };
@@ -1101,7 +1138,7 @@
         pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend>;
         pinctrl-names = "panel_active", "panel_suspend";
         qcom,dsi-ctrl = <&mdss_dsi0>;
-        qcom,dsi-default-panel = <&dsi_m7_38_0c_0a_video>;
+        qcom,dsi-default-panel = <&dsi_panel_m7_38_0c_0a_fhdp_video>;
         qcom,dsi-phy = <&mdss_dsi_phy0>;
         qcom,mdp = <&mdss_mdp>;
         qcom,panel-te-source = <0x0>;
@@ -2032,7 +2069,7 @@
         io-channels = <&sc8551_standalone 0x90 &sc8551_standalone 0x76 &sc8551_standalone 0x8F &sc8551_standalone 0x92 &sc8551_standalone 0x93 &sc8551_standalone 0x94 &sc8551_standalone 0x95 &sc8551_standalone 0x96 &sc8551_standalone 0x97 &sc8551_standalone 0x98 &sc8551_standalone 0x99 &sc8551_standalone 0x9A &sc8551_standalone 0x9B &sc8551_standalone 0x91 &sc8551_standalone 0x9C &sc8551_standalone 0x9D &sc8551_standalone 0xAB &nopmi_chg 0x78 &nopmi_chg 0x4 &nopmi_chg 0x76 &bq2589x 0x9E &ln8000_charger 0x8F &ln8000_charger 0x90 &ln8000_charger 0xA6 &ln8000_charger 0xAA &ln8000_charger 0xA7 &ln8000_charger 0x76 &ln8000_charger 0xA4 &ln8000_charger 0xA5 &ln8000_charger 0x92 &ln8000_charger 0x93 &ln8000_charger 0x94 &ln8000_charger 0x95 &ln8000_charger 0x96 &ln8000_charger 0x97 &ln8000_charger 0x98 &ln8000_charger 0x99 &ln8000_charger 0x9A &ln8000_charger 0x9B &ln8000_charger 0x91 &ln8000_charger 0xA8 &ln8000_charger 0xA9 &ln8000_charger 0x9C &ln8000_charger 0xAB &nopmi_chg 0xAC &nopmi_chg 0xAD>;
         status = "okay";
     };
-    rt-pd-manager {
+    rpm: rt-pd-manager {
         #io-channel-cells = <0x1>;
         compatible = "richtek,rt-pd-manager";
         io-channel-names = "usb_real_type", "pd_active", "pd_voltage_min", "pd_voltage_max", "pd_current_max", "typec_cc_orientation", "pd_usb_suspend_supported", "pd_in_hard_reset", "cc_chip_id";
@@ -2069,7 +2106,7 @@
         board-sensor = "VIRTUAL-SENSOR";
     };
     thermal-screen {
-        panel = <&dsi_m7_38_0c_0a_video &dsi_m7_38_0c_0b_video>;
+        panel = <&dsi_panel_m7_38_0c_0a_fhdp_video &dsi_panel_m7_38_0c_0b_fhdp_video>;
     };
     tx_core_clk {
         #clock-cells = <0x1>;
@@ -2259,65 +2296,6 @@
             pins = "gpio66";
         };
     };
-    msm_gpio_104 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_104_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio104";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio104";
-        };
-    };
-    msm_gpio_65 {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-low;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_65_output_high {
-        config {
-            bias-disable;
-            drive-strength = <0x2>;
-            output-high;
-            pins = "gpio65";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio65";
-        };
-    };
-    msm_gpio_83 {
-        config {
-            bias-pull-down;
-            drive-strength = <0x2>;
-            pins = "gpio83";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio83";
-        };
-    };
     onewire_gpio_active {
         config {
             bias-pull-up;
@@ -2351,18 +2329,6 @@
             pins = "gpio93";
         };
     };
-    sc8551_int_default {
-        config {
-            bias-pull-up;
-            drive-strength = <0x2>;
-            input-enable;
-            pins = "gpio84";
-        };
-        mux {
-            function = "gpio";
-            pins = "gpio84";
-        };
-    };
 };
 
 &ufshc_mem {
@@ -2370,6 +2336,7 @@
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;

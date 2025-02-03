@@ -685,7 +685,7 @@
             linux,input-type = <0x1>;
         };
     };
-    msm_cdc_pinctrl@106 {
+    wsa881x_analog_reset_gpio: msm_cdc_pinctrl@106 {
         #gpio-cells = <0x0>;
         compatible = "qcom,msm-cdc-pinctrl";
         pinctrl-0 = <&spkr_1_sd_n_active>;
@@ -693,32 +693,32 @@
         pinctrl-names = "aud_active", "aud_sleep";
         status = "disable";
     };
-    msm_cdc_pinctrl@92 {
+    wcd937x_rst_gpio: msm_cdc_pinctrl@92 {
         #gpio-cells = <0x0>;
         compatible = "qcom,msm-cdc-pinctrl";
         pinctrl-0 = <&wcd937x_reset_active>;
         pinctrl-1 = <&wcd937x_reset_sleep>;
         pinctrl-names = "aud_active", "aud_sleep";
     };
-    cam_res_mgr_label: qcom,cam-res-mgr {
+    qcom,cam-res-mgr {
         compatible = "qcom,cam-res-mgr";
         status = "ok";
     };
-    rx_core_clk {
+    clock_audio_rx_1: rx_core_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x5>;
         qcom,codec-lpass-clk-id = <0x30E>;
         qcom,codec-lpass-ext-clk-freq = <0x1588800>;
     };
-    rx_npl_clk {
+    clock_audio_rx_2: rx_npl_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x6>;
         qcom,codec-lpass-clk-id = <0x30F>;
         qcom,codec-lpass-ext-clk-freq = <0x1588800>;
     };
-    si_pa_L {
+    si_pa_L: si_pa_L {
         channel_num = <0x0>;
         compatible = "si,sia81xx";
         owi_mode = <0x1>;
@@ -727,28 +727,28 @@
         si,si_pa_type = "sia81x9";
         timer_task_hdl = <0x0>;
     };
-    tx_core_clk {
+    clock_audio_tx_1: tx_core_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x7>;
         qcom,codec-lpass-clk-id = <0x30C>;
         qcom,codec-lpass-ext-clk-freq = <0x124F800>;
     };
-    tx_npl_clk {
+    clock_audio_tx_2: tx_npl_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x8>;
         qcom,codec-lpass-clk-id = <0x30D>;
         qcom,codec-lpass-ext-clk-freq = <0x124F800>;
     };
-    va_core_clk {
+    clock_audio_va_1: va_core_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x2>;
         qcom,codec-lpass-clk-id = <0x307>;
         qcom,codec-lpass-ext-clk-freq = <0x124F800>;
     };
-    va_npl_clk {
+    clock_audio_va_2: va_npl_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0xA>;
@@ -765,7 +765,7 @@
         regulator-min-microvolt = <0xD6D80>;
         regulator-name = "vdd_supply";
     };
-    wsa_ana_clk {
+    wsa881x_analog_clk: wsa_ana_clk {
         #clock-cells = <0x1>;
         compatible = "qcom,audio-ref-clk";
         qcom,codec-ext-clk-src = <0x3>;
@@ -1026,6 +1026,7 @@
     qcom,vddp-ref-clk-supply = <&L18A>;
     reset-gpios = <&tlmm 0x71 0x1>;
     reset-names = "rst";
+    resets = <&gcc 0x4>;
     status = "ok";
     vcc-max-microamp = <0xC3500>;
     vcc-supply = <&L24A>;
